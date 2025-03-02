@@ -10,4 +10,4 @@ matplotlib==3.7.1
 mplsoccer==1.0.0
 plotly==5.13.1
 sklearn
-scikitlearn
+scikit-learn
