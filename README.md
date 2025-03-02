@@ -1,6 +1,6 @@
 # Player Analysis and Market Value Prediction and Web App
 This project is designed to provide detailed analysis and market value predictions for football players. 
-The [app]('https://recommenderfootball.streamlit.app/') leverages machine learning models and data visualization techniques to offer insights into player performance and similarity comparisons.
+The [app](https://recommenderfootball.streamlit.app/) leverages machine learning models and data visualization techniques to offer insights into player performance and similarity comparisons.
 
 ## Project Overview
 
@@ -13,8 +13,8 @@ The [app]('https://recommenderfootball.streamlit.app/') leverages machine learni
 
 ### Data Source:
 
-- performance data is scraped from fbref
-- market value and other player rofile data is scraped from transfermarkt
+- performance data is scraped from [fbref](https://fbref.com/en/)
+- market value and other player rofile data is scraped from [transfermarkt](https://www.transfermarkt.com/)
 - The data is scraped from the above two football statistical websites and updated everyday using a scheduler and stored in a database
 - The app retrieves player data from a PostgreSQL database
 
