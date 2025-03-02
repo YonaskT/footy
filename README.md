@@ -1,5 +1,6 @@
 # Player Analysis and Market Value Prediction and Web App
-This project is designed to provide detailed analysis and market value predictions for football players. The app leverages machine learning models and data visualization techniques to offer insights into player performance and similarity comparisons.
+This project is designed to provide detailed analysis and market value predictions for football players. 
+The [app]('https://recommenderfootball.streamlit.app/') leverages machine learning models and data visualization techniques to offer insights into player performance and similarity comparisons.
 
 ## Project Overview
 
