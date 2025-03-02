@@ -2,6 +2,8 @@
 This project is designed to provide detailed analysis and market value predictions for football players. 
 The [app](https://recommenderfootball.streamlit.app/) leverages machine learning models and data visualization techniques to offer insights into player performance and similarity comparisons.
 
+The main aim of this project is to create a comprehensive dataset for analyzing football player performances and predicting market value, leveraging data from multiple sources and perform extensive data cleaning, preprocessing analyzing and getting insights.
+
 ## Project Overview
 
 - Build player scouting recommender system
