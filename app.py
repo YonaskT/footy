@@ -221,6 +221,6 @@ if st.button('Predict Market Value'):
         player_processed = preprocessor.transform(player_data)
         
         predicted_value = model.predict(player_processed)[0]
-        st.write(f'Predicted market value for {selected_player}: ${predicted_value:,.2f}')
+        st.write(f'Predicted market value for {selected_player}: €{predicted_value:,.2f}')
     except Exception as e:
         st.error(f"Error during prediction: {e}")
