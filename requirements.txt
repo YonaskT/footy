@@ -7,5 +7,5 @@ psycopg2-binary==2.9.5
 python-dotenv==1.0.0
 joblib==1.2.0
 matplotlib==3.7.1
-mplsoccer==1.0.0
+mplsoccer
 plotly==5.13.1
