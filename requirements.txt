@@ -1,0 +1,11 @@
+streamlit==1.18.1
+pandas==1.5.3
+numpy==1.24.2
+scikit-learn==1.2.2
+sqlalchemy==2.0.5.post1
+psycopg2-binary==2.9.5
+python-dotenv==1.0.0
+joblib==1.2.0
+matplotlib==3.7.1
+mplsoccer==1.0.0
+plotly==5.13.1
