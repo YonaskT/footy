@@ -1,0 +1,11 @@
+streamlit
+pandas
+numpy
+sqlalchemy
+psycopg2-binary
+python-dotenv
+joblib
+matplotlib
+mplsoccer
+plotly
+scikit-learn
