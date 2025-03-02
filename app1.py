@@ -7,19 +7,12 @@ from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.metrics.pairwise import cosine_similarity
 import joblib
-
-import os
 import unicodedata
 import warnings
 import matplotlib.pyplot as plt
 from mplsoccer import PyPizza, FontManager
 
 warnings.filterwarnings('ignore')
-
-
-# Load the trained scaler and model
-preprocessor = joblib.load('scaler.pkl')
-model = joblib.load('best_xgboost.pkl')
 
 # Load data from CSV
 @st.cache_data
@@ -84,7 +77,7 @@ def compute_position_percentiles(df, main_position):
     ]:
         percentile_col = f"{col}_percentile"
         df.loc[df['main_position'] == main_position, percentile_col] = pos_group[col].rank(pct=True) * 100
-
+    
     return df
 
 # Apply percentile calculation by position
@@ -146,7 +139,7 @@ baker = PyPizza(
 # Plot pizza
 fig, ax = baker.make_pizza(
     values,                          
-    figsize=(10, 8.5),                
+    figsize=(10, 8.5),               
     color_blank_space="same",        
     slice_colors=slice_colors,       
     value_colors=text_colors,        
@@ -205,6 +198,6 @@ if st.button('Predict Market Value'):
         player_processed = preprocessor.transform(player_data)
         
         predicted_value = model.predict(player_processed)[0]
-        st.write(f'Predicted market value for {selected_player}: €{predicted_value:,.2f}')
+        st.write(f'Predicted market value for {selected_player}: \u20ac{predicted_value:,.2f}')
     except Exception as e:
         st.error(f"Error during prediction: {e}")
