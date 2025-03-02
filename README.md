@@ -43,18 +43,26 @@ The app uses a pre-trained machine learning model to estimate the player's marke
 ### Technical Details:
 
 Data Source: The app retrieves player data from a PostgreSQL database .
+
 Machine Learning: The app uses a pre-trained XGBoost model for market value prediction.
+
 Data Processing: The app employs a combination of StandardScaler for feature scaling.
+
 Visualization: The radar chart is created using the mplsoccer library's PyPizza class.
+
 Framework: The app is built using the Streamlit framework, which allows for interactive and real-time data visualization.
 
 How to Use the app:
+
 Select a Player: Choose a player from the dropdown menu in the sidebar.
+
 View Similar Players: The app will display a list of players most similar to the selected player.
-Analyze Performance: A radar chart will be generated to visualize the selected player's performance metrics.
+
+Analyze Performance: A radar chart will be generated to visualize the selected player's performance metrics among players that plays in his position.
+
 Predict Market Value: Click the "Predict Market Value" button to estimate the player's market value.
 
-The web app provides a comprehensive tool for football analysts, scouts, and enthusiasts to evaluate player performance and make informed decisions based on data-driven insights.
+The [web app](https://recommenderfootball.streamlit.app/) provides a comprehensive tool for football analysts, scouts, and enthusiasts to evaluate player performance and make informed decisions based on data-driven insights.
 
 
 
