@@ -2,11 +2,9 @@ streamlit
 pandas 
 numpy
 sqlalchemy
-psycopg2-binary
 pythondotenv
 os
 joblib
-joblib 
 mtplotlib
 mplsoccer
 plotly
