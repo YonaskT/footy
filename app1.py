@@ -14,6 +14,10 @@ from mplsoccer import PyPizza, FontManager
 
 warnings.filterwarnings('ignore')
 
+# Load the trained scaler and model
+preprocessor = joblib.load('scaler.pkl')
+model = joblib.load('best_xgboost.pkl')
+
 # Load data from CSV
 @st.cache_data
 def load_data():
