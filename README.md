@@ -35,6 +35,7 @@ The app calculates and displays the top 5 players most similar to the selected p
 
 A radar chart (pizza plot) is generated to visualize the selected player's performance across multiple metrics.
 The chart includes parameters such as goals, assists, tackle percentage, expected goals, progressive carries, key passes, passes into the penalty area, progressive passes, pass completion percentage, and shots on target per 90 minutes.
+
 4. Market Value Prediction:
 
 Users can predict the market value of the selected player by clicking the "Predict Market Value" button.
