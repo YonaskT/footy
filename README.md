@@ -1,14 +1,33 @@
-# Player Analysis and Market Value Prediction Web App
-This web application is designed to provide detailed analysis and market value predictions for football players. The app leverages machine learning models and data visualization techniques to offer insights into player performance and similarity comparisons.
+# Player Analysis and Market Value Prediction and Web App
+This project is designed to provide detailed analysis and market value predictions for football players. The app leverages machine learning models and data visualization techniques to offer insights into player performance and similarity comparisons.
 
-Key Features:
+## Project Overview
+
+- Build player scouting recommender system
+- understand which variables increase the market value per player
+- Predicts player market value based on their performance metrics
+- Provides insights and recommendations for clubs, scouts
+- identify over/under performing players based on their market value
+- identify undervalued or overvalued players
+
+### Data Source:
+
+- performance data is scraped from fbref
+- market value and other player rofile data is scraped from transfermarkt
+- The data is scraped from the above two football statistical websites and updated everyday using a scheduler and stored in a database
+- The app retrieves player data from a PostgreSQL database
+
+### Key Features of the app:
+
 1. Player Selection:
 
 Users can select a player from a dropdown menu in the sidebar.
 The app displays the most similar players based on performance metrics.
+
 2. Player Similarity:
 
 The app calculates and displays the top 5 players most similar to the selected player using cosine similarity on various performance metrics.
+
 3. Performance Visualization:
 
 A radar chart (pizza plot) is generated to visualize the selected player's performance across multiple metrics.
@@ -18,14 +37,15 @@ The chart includes parameters such as goals, assists, tackle percentage, expecte
 Users can predict the market value of the selected player by clicking the "Predict Market Value" button.
 The app uses a pre-trained machine learning model to estimate the player's market value based on their performance data.
 
-Technical Details:
-Data Source: The app retrieves player data from a PostgreSQL database.
+### Technical Details:
+
+Data Source: The app retrieves player data from a PostgreSQL database .
 Machine Learning: The app uses a pre-trained XGBoost model for market value prediction.
-Data Processing: The app employs a combination of StandardScaler for feature scaling and SimpleImputer for handling missing values.
+Data Processing: The app employs a combination of StandardScaler for feature scaling.
 Visualization: The radar chart is created using the mplsoccer library's PyPizza class.
 Framework: The app is built using the Streamlit framework, which allows for interactive and real-time data visualization.
 
-How to Use:
+How to Use the app:
 Select a Player: Choose a player from the dropdown menu in the sidebar.
 View Similar Players: The app will display a list of players most similar to the selected player.
 Analyze Performance: A radar chart will be generated to visualize the selected player's performance metrics.
