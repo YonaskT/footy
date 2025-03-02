@@ -11,3 +11,4 @@ plotly
 scikit-learn
 matplotlib
 seaborn
+unicodedata
