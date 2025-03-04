@@ -26,7 +26,7 @@ db_config = {
     'user': os.getenv('DB_USER'),
     'password': os.getenv('DB_PASSWORD'),
     'host': os.getenv('DB_HOST'),
-    'port': int(os.getenv('DB_PORT', 5432))
+    'port': os.getenv('DB_PORT')
 }
 
 # Create a connection string for SQLAlchemy
@@ -34,13 +34,14 @@ connection_string = f"postgresql+psycopg2://{db_config['user']}:{db_config['pass
 engine = create_engine(connection_string)
 
 # Load the trained scaler and model
-preprocessor = joblib.load('scaler.pkl')
-model = joblib.load('best_xgboost.pkl')
+preprocessor = joblib.load('scaler1.pkl')
+model = joblib.load('xgboost.pkl')
 
 # Load data
 @st.cache_data
 def load_data():
-    df = pd.read_sql_query("""select * from prediction""", con=engine)
+    df = pd.read_sql_query("""select * from merged_players""", con=engine)
+    df=df.dropna().reset_index(drop=True)
     return df
 
 df = load_data()
