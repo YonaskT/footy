@@ -7,3 +7,6 @@ matplotlib
 mplsoccer
 plotly
 xgboost
+sqlalchemy
+os
+python-dotenv
