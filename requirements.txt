@@ -8,4 +8,5 @@ mplsoccer
 plotly
 xgboost
 sqlalchemy
-python-dotenv
+psycopg2-binary
+psycopg2
