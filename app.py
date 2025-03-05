@@ -8,9 +8,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.metrics.pairwise import cosine_similarity
 import joblib
 from sqlalchemy import create_engine
-import os
 import unicodedata
-import warnings
 import matplotlib.pyplot as plt
 from mplsoccer import PyPizza, FontManager
 
