@@ -9,4 +9,3 @@ plotly
 xgboost
 sqlalchemy
 psycopg2-binary
-psycopg2
