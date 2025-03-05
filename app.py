@@ -24,7 +24,7 @@ db_config = {
 
 
 # Create engine
-DATABASE_URL = f"postgresql+psycopg2://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['dbname']}"
+DATABASE_URL = f"postgresql://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['dbname']}"
 engine = create_engine(DATABASE_URL)
 
 # Load the trained scaler and model
