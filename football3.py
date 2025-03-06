@@ -92,9 +92,15 @@ for pos in df['main_position'].unique():
 # Streamlit app
 st.title('Player Analysis and Market Value Prediction')
 
+# Predict market value for all players
+df['predicted_value'] = model.predict(preprocessor.transform(df))
+
+# Sort players by predicted market value (higher value first)
+sorted_players = df.sort_values(by='predicted_value', ascending=False)['player_x'].unique()
+
 # Sidebar for user input
 st.sidebar.header('Player Selection')
-selected_player = st.sidebar.selectbox('Select a player', df['player_x'].unique())
+selected_player = st.sidebar.selectbox('Select a player', sorted_players)
 
 # Predict the market value for the selected player
 st.header(f"Predicted Market Value for {selected_player}")
