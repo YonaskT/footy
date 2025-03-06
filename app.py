@@ -10,36 +10,57 @@ import joblib
 from sqlalchemy import create_engine
 import unicodedata
 import matplotlib.pyplot as plt
-from mplsoccer import PyPizza, FontManager
+from mplsoccer import PyPizza, FontManager 
+import psycopg2
 
 
 # Database configuration using st.secrets
 db_config = {
-    'dbname': st.secrets["DB_NAME"],
-    'user': st.secrets["DB_USER"],
-    'password': st.secrets["DB_PASSWORD"],
-    'host': st.secrets["DB_HOST"],
-    'port': int(st.secrets.get("DB_PORT", 5432))  # Default to 5432 if port is not specified
+    'dbname': st.secrets["dbname"],
+    'user': st.secrets["user"],
+    'password': st.secrets["password"],
+    'host': st.secrets["host"],
+    'port': int(st.secrets.get("port", "5432"))
 }
 
-
-# Create engine
-DATABASE_URL = f"postgresql://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['dbname']}"
-engine = create_engine(DATABASE_URL)
 
 # Load the trained scaler and model
 preprocessor = joblib.load('scaler1.pkl')
 model = joblib.load('xgboost.pkl')
-
-# Load data
-@st.cache_data
+# Function to load data from PostgreSQL using pd.read_sql
+@st.cache_data  # Cache the data to avoid reloading on every interaction
 def load_data():
-    df = pd.read_sql_query("""select * from merged_players""", con=engine)
-    df=df.dropna().reset_index(drop=True)
+    try:
+        # Establish a connection to PostgreSQL
+        conn = psycopg2.connect(
+            dbname=db_config['dbname'],
+            user=db_config['user'],
+            password=db_config['password'],
+            host=db_config['host'],
+            port=db_config['port']
+        )
+        print("Connected to the database successfully!")
 
-    return df
+        # Load data directly into a Pandas DataFrame using pd.read_sql
+        query = "SELECT * FROM merged_players;"
+        df = pd.read_sql(query, conn)
+        df.to_csv('data.csv', index=False)
 
+        # Close the connection
+        conn.close()
+        print("Database connection closed.")
+
+        return df
+
+    except Exception as e:
+        print(f"Error connecting to the database or executing query: {e}")
+        st.error(f"Database error: {e}")
+        return pd.DataFrame()  # Return an empty DataFrame on error
+
+# Load the data
 df = load_data()
+
+
 
 # Normalize accented characters in unique_id and player_id
 df['unique_id'] = df['unique_id'].apply(lambda x: unicodedata.normalize('NFKD', x).encode('ASCII', 'ignore').decode() if isinstance(x, str) else x)
@@ -220,3 +241,4 @@ if st.button('Predict Market Value'):
         st.write(f'Predicted market value for {selected_player}: €{predicted_value:,.2f}')
     except Exception as e:
         st.error(f"Error during prediction: {e}")
+
