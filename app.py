@@ -7,58 +7,31 @@ from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.metrics.pairwise import cosine_similarity
 import joblib
-from sqlalchemy import create_engine
 import unicodedata
 import matplotlib.pyplot as plt
 from mplsoccer import PyPizza, FontManager 
-import psycopg2
-
-
-# Database configuration using st.secrets
-db_config = {
-    'dbname': st.secrets["dbname"],
-    'user': st.secrets["user"],
-    'password': st.secrets["password"],
-    'host': st.secrets["host"],
-    'port': int(st.secrets.get("port", "5432"))
-}
 
 
 # Load the trained scaler and model
 preprocessor = joblib.load('scaler1.pkl')
 model = joblib.load('xgboost.pkl')
-# Function to load data from PostgreSQL using pd.read_sql
-@st.cache_data  # Cache the data to avoid reloading on every interaction
+@st.cache_data  # Cache the data to avoid frequent reloading
 def load_data():
+    # Load data directly from the raw GitHub link
+    url = "https://raw.githubusercontent.com/YonaskT/footy/main/merged_players.csv"
     try:
-        # Establish a connection to PostgreSQL
-        conn = psycopg2.connect(
-            dbname=db_config['dbname'],
-            user=db_config['user'],
-            password=db_config['password'],
-            host=db_config['host'],
-            port=db_config['port']
-        )
-        print("Connected to the database successfully!")
-
-        # Load data directly into a Pandas DataFrame using pd.read_sql
-        query = "SELECT * FROM merged_players;"
-        df = pd.read_sql(query, conn)
-        df.to_csv('data.csv', index=False)
-
-        # Close the connection
-        conn.close()
-        print("Database connection closed.")
-
+        df = pd.read_csv(url)
+        st.write("Data Loaded Successfully!")
         return df
-
     except Exception as e:
-        print(f"Error connecting to the database or executing query: {e}")
-        st.error(f"Database error: {e}")
-        return pd.DataFrame()  # Return an empty DataFrame on error
+        st.error(f"Failed to load data: {e}")
+        return pd.DataFrame()  # Return empty DataFrame on failure
 
-# Load the data
+# Load data into the app
 df = load_data()
+
+# Use the DataFrame as needed
+st.write("Sample Data", df.sample(5))
 
 
 
@@ -241,4 +214,3 @@ if st.button('Predict Market Value'):
         st.write(f'Predicted market value for {selected_player}: €{predicted_value:,.2f}')
     except Exception as e:
         st.error(f"Error during prediction: {e}")
-
