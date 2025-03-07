@@ -87,11 +87,17 @@ df['predicted_value'] = model.predict(preprocessor.transform(df))
 sorted_players = df.sort_values(by='predicted_value', ascending=False)['player_x'].unique()
 
 # Streamlit app
+st.title('Player Analysis and Market Value Prediction')
+
+# Description of the app
+st.write("""
+This web application provides detailed analysis and market value predictions for football players. 
+Users can select a player to view their performance metrics, compare them with similar players, 
+and predict their market value using a machine learning model.
+""")
 # Sidebar for user input
 st.sidebar.header('Player Selection')
 selected_player = st.sidebar.selectbox('Select a player', sorted_players)
-
-st.header(f"Analysis and Market Value Prediction for {selected_player}")
 
 # Show player data
 player_data = df[df['player_x'] == selected_player]
