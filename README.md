@@ -1,6 +1,6 @@
 # Player Analysis and Market Value Prediction and Web App
 This project is designed to provide detailed analysis and market value predictions for football players. 
-The [app](https://recommenderfootball.streamlit.app/) leverages machine learning models and data visualization techniques to offer insights into player performance and similarity comparisons.
+The [app](https://footballdata.streamlit.app/) leverages machine learning models and data visualization techniques to offer insights into player performance and similarity comparisons.
 
 The main aim of this project is to create a comprehensive dataset for analyzing football player performances and predicting market value, leveraging data from multiple sources and perform extensive data cleaning, preprocessing analyzing and getting insights.
 
@@ -61,9 +61,11 @@ View Similar Players: The app will display a list of players most similar to the
 
 Analyze Performance: A radar chart will be generated to visualize the selected player's performance metrics among players that plays in his position.
 
-Predict Market Value: Click the "Predict Market Value" button to estimate the player's market value.
+Younger Replacements: If the selected player is over the age of 27, the app suggests younger replacements who play in the same position and have similar performance metrics.
 
-The [web app](https://recommenderfootball.streamlit.app/) provides a comprehensive tool for football analysts, scouts, and enthusiasts to evaluate player performance and make informed decisions based on data-driven insights.
+Market Value Prediction: The app uses a pre-trained machine learning model to predict the market value of the selected player based on their performance metrics.
+
+The [web app](https://footballdata.streamlit.app/) provides a comprehensive tool for football analysts, scouts, and enthusiasts to evaluate player performance and make informed decisions based on data-driven insights.
 
 
 
