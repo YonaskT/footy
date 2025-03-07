@@ -93,6 +93,7 @@ st.title('Player Analysis and Market Value Prediction')
 st.write("""
 This web application provides detailed analysis and market value predictions for football players. 
 Users can select a player to view their performance metrics, compare them with similar players, 
+suggest younger replacements when the player selected is over the age of 27 
 and predict their market value using a machine learning model.
 """)
 # Sidebar for user input
