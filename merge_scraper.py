@@ -144,9 +144,9 @@ def update_merged_players():
 def main():
     # Log scheduler start
     logging.info("Scheduler started")
-    logging.info(f"Next run scheduled at 02:00 AM daily")
+    logging.info(f"Next run scheduled at 08:05 AM daily")
 
-    # Schedule the update (e.g., daily at 8:05 AM)
+    # Schedule the update 
     schedule.every().day.at("08:05").do(update_merged_players)
 
 
