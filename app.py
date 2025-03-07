@@ -90,11 +90,16 @@ sorted_players = df.sort_values(by='predicted_value', ascending=False)['player_x
 st.title('Player Analysis and Market Value Prediction')
 
 # Description of the app
-st.write("""
-This web application provides detailed analysis and market value predictions for football players. 
-Users can select a player to view their performance metrics, compare them with similar players, 
-suggest younger replacements when the player selected is over the age of 27 
-and predict their market value using a machine learning model.
+st.write("""Welcome to the Football Player Analysis and Market Value Prediction App!
+
+This web application offers a comprehensive analysis of football players, leveraging advanced machine learning models to predict their market value. Key features include:
+
+- **Player Selection**: Choose a player to view detailed performance metrics and statistics.
+- **Similarity Comparison**: Compare the selected player with similar players based on performance metrics.
+- **Younger Replacements**: Suggest younger replacements for players over the age of 27, helping teams plan for the future.
+- **Market Value Prediction**: Predict the market value of the selected player using a sophisticated machine learning model.
+
+Explore the app to gain insights into player performance and make data-driven decisions.
 """)
 # Sidebar for user input
 st.sidebar.header('Player Selection')
