@@ -67,5 +67,6 @@ Market Value Prediction: The app uses a pre-trained machine learning model to pr
 
 The [web app](https://footballdata.streamlit.app/) provides a comprehensive tool for football analysts, scouts, and enthusiasts to evaluate player performance and make informed decisions based on data-driven insights.
 
+The data is provided and made available by [fbref](https://fbref.com/en/) and I don't own any of it.
 
 
