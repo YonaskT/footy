@@ -7,5 +7,5 @@ matplotlib
 mplsoccer
 plotly
 xgboost
-sqlalchemy
-psycopg2-binary==2.9.5 
+sQlAlchemy==2.0.38
+psycopg2==66.0.2
