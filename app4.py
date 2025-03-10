@@ -19,7 +19,7 @@ db_config = {
     'user': os.getenv('DB_USER'),
     'password': os.getenv('DB_PASSWORD'),
     'host': os.getenv('DB_HOST'),
-    'port': int(os.getenv('DB_PORT'))
+    'port': os.getenv('DB_PORT')
 }
 
 # Create a connection string for SQLAlchemy
