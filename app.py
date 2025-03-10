@@ -308,12 +308,12 @@ top_replacement = find_top_replacement(selected_player, df)
 player1 = st.sidebar.selectbox('Selected Player', df['player_x'].unique(), index=list(df['player_x']).index(selected_player), key='player1')
 player2 = st.sidebar.selectbox('Replacement Player', df['player_x'].unique(), index=list(df['player_x']).index(top_replacement) if top_replacement else 0, key='player2')
 
-def create_radar_plot(players, metrics):
+def create_radar_plot(players, params, percentile_columns):
     # Get data for selected players and metrics
-    plot_data = df[df['player_x'].isin(players)][['player_x'] + metrics].set_index('player_x')
+    plot_data = df[df['player_x'].isin(players)][['player_x'] + percentile_columns].set_index('player_x')
     
     # Number of variables
-    num_vars = len(metrics)
+    num_vars = len(params)
     
     # Compute angle for each axis
     angles = [n / float(num_vars) * 2 * np.pi for n in range(num_vars)]
@@ -326,29 +326,46 @@ def create_radar_plot(players, metrics):
     for idx, player in enumerate(players):
         values = plot_data.loc[player].values.flatten().tolist()
         values += values[:1]
-        ax.plot(angles, values, linewidth=1, linestyle='solid', label=player)
-        ax.fill(angles, values, alpha=0.1)
+        ax.plot(angles, values, linewidth=2, linestyle='solid', label=player)
+        ax.fill(angles, values, alpha=0.25)
     
     # Fix axis to go in the right order and start at 12 o'clock
     ax.set_theta_offset(np.pi / 2)
     ax.set_theta_direction(-1)
     
-    # Draw axis lines for each angle and label
+    # Draw one axe per variable and add labels
     ax.set_xticks(angles[:-1])
-    ax.set_xticklabels(metrics)
+    ax.set_xticklabels(params, color='white', size=12)
+    
+    # Draw ylabels
+    ax.set_rlabel_position(0)
+    plt.yticks([10, 20, 30, 40, 50, 60, 70, 80, 90, 100], ["10", "20", "30", "40", "50", "60", "70", "80", "90", "100"], color="grey", size=10)
+    plt.ylim(0, 100)
     
     # Add legend
     plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-    plt.title("Player Comparison Radar Plot")
+    plt.title("Player Comparison Radar Plot", size=20, color='white', y=1.1)
     
+    # Set background color
+    fig.patch.set_facecolor('#222222')  
+    ax.patch.set_facecolor('#222222')
     return fig
 
 if player1 and player2:
     st.write(f"Comparing {player1} and {player2}")
     
-    # Select metrics for comparison
-    comparison_metrics = ['gls', 'ast', 'xg', 'npxg', 'xag', 'sh_per_90', 'sot_per_90']
+    # Define parameters and percentile columns
+    params = [
+        'Goals','Assist','Tackle Percentage','Expected Goals','Progressive Carries', 
+        'Key Passes', 'Passes into Penalty Area', 'Progressive Passes', 'Pass Completion %', 
+        'Shots on Target per 90'
+    ]
+    percentile_columns = [
+        'gls_percentile', 'ast_percentile', 'tkl_pcnt_percentile', 
+        'xg_percentile', 'prgc_percentile', 'kp_percentile', 
+        'ppa_percentile', 'prgp_percentile', 'cmp_pcnt_percentile',  'sot_per_90_percentile'
+    ]
     
     # Create and display the radar plot
-    radar_plot = create_radar_plot([player1, player2], comparison_metrics)
+    radar_plot = create_radar_plot([player1, player2], params, percentile_columns)
     st.pyplot(radar_plot)
