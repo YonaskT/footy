@@ -9,7 +9,7 @@ import joblib
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
 import os
-import psycopgy2
+import psycopg2
 
 # Load environment variables
 load_dotenv()
