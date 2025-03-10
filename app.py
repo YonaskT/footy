@@ -14,7 +14,7 @@ model = joblib.load('xgboost.pkl')
 
 @st.cache_data  # Cache the data to avoid frequent reloading
 def load_data():
-    url = "https://raw.githubusercontent.com/YonaskT/footy/merged_players.csv"
+    url = "https://raw.githubusercontent.com/YonaskT/footy/main/merged_players.csv"
     df = pd.read_csv(url)
     return df
 # Load data into the app
