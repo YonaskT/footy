@@ -224,7 +224,7 @@ font_italic = FontManager('https://raw.githubusercontent.com/googlefonts/roboto/
 font_bold = FontManager('https://raw.githubusercontent.com/google/fonts/main/apache/robotoslab/RobotoSlab[wght].ttf')
 
 # Slice colors (grouped by attack, midfield, defense)
-slice_colors = ["#FF6347"] * 4 + ["#4682B4"] * 4 + ["#32CD32"] * 2
+slice_colors = ["#4682B4"] * 10
 text_colors = ["#FFFFFF"] * 10
 
 # Instantiate PyPizza class
