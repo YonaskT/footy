@@ -8,4 +8,4 @@ mplsoccer
 plotly
 xgboost
 sQlAlchemy==2.0.38
-psycopg2==66.0.2
+psycopg2
