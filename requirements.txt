@@ -7,5 +7,6 @@ matplotlib
 mplsoccer
 plotly
 xgboost
+dotenv
 sQlAlchemy==2.0.38
 psycopg2-binary
