@@ -29,18 +29,69 @@ def load_data():
             import psycopg2
             from sqlalchemy import create_engine
             
-            # Get credentials from Streamlit secrets
-            db_credentials = st.secrets["postgres"]
+            # Try different ways to access credentials
+            # First check if there's a nested structure
+            if "postgres" in st.secrets:
+                db_config = st.secrets["postgres"]
+            else:
+                # Check for top-level credentials
+                db_config = {
+                    'host': st.secrets.get("DB_HOST"),
+                    'port': st.secrets.get("DB_PORT", 5432),
+                    'dbname': st.secrets.get("DB_NAME"),
+                    'user': st.secrets.get("DB_USER"),
+                    'password': st.secrets.get("DB_PASSWORD")
+                }
+            
+            # Log which credentials were found (without showing values)
+            found_keys = [k for k, v in db_config.items() if v is not None]
+            st.write(f"Found database config keys: {found_keys}")
+            
+            # Check if we have all required credentials
+            required_keys = ['host', 'dbname', 'user', 'password']
+            missing_keys = [k for k in required_keys if k not in found_keys]
+            
+            if missing_keys:
+                st.error(f"Missing required database credentials: {', '.join(missing_keys)}")
+                raise ValueError("Missing database credentials")
             
             # Create connection string
-            connection_string = f"postgresql+psycopg2://{db_credentials['user']}:{db_credentials['password']}@{db_credentials['host']}:{db_credentials['port']}/{db_credentials['dbname']}"
+            connection_string = f"postgresql+psycopg2://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config.get('port', 5432)}/{db_config['dbname']}"
             engine = create_engine(connection_string)
             
             # Load data from database
             df = pd.read_sql_query("""select * from prediction""", con=engine)
             return df
         except Exception as e:
-            st.error(f"Error connecting to database: {e}")
+            st.error(f"Error connecting to database: {str(e)}")
+            
+            # Show a more detailed error message for debugging
+            st.expander("Debug Information").write("""
+            ## Debug Database Connection
+            
+            Please ensure your secrets are configured correctly in Streamlit Cloud.
+            Your secrets should be structured in one of these formats:
+            
+            Option 1 (Nested structure):
+            ```
+            [postgres]
+            host = "your-database-host.com"
+            port = 5432
+            dbname = "your-database-name"
+            user = "your-username"
+            password = "your-password"
+            ```
+            
+            Option 2 (Flat structure):
+            ```
+            DB_HOST = "your-database-host.com"
+            DB_PORT = 5432
+            DB_NAME = "your-database-name"
+            DB_USER = "your-username"
+            DB_PASSWORD = "your-password"
+            ```
+            """)
+            
             # Provide sample data as fallback
             return pd.DataFrame({
                 'player_x': ['Sample Player 1', 'Sample Player 2'],
