@@ -107,7 +107,7 @@ selected_player = st.sidebar.selectbox('Select a player', sorted_players)
 
 # Show player data
 player_data = df[df['player_x'] == selected_player]
-st.subheader("Player Data:", player_data)
+st.write("Player Data:", player_data)
 
 
 # Predict the market value for the selected player
