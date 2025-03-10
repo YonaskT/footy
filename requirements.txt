@@ -8,4 +8,4 @@ mplsoccer
 plotly
 xgboost
 sqlalchemy
-psycopg2-binary
+psycopg2-binary==2.9.5
