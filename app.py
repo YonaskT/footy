@@ -107,7 +107,7 @@ selected_player = st.sidebar.selectbox('Select a player', sorted_players)
 
 # Show player data
 player_data = df[df['player_x'] == selected_player]
-st.write("Player Data:", player_data)
+st.subheader("Player Data:", player_data)
 
 
 # Predict the market value for the selected player
@@ -188,7 +188,7 @@ def find_younger_replacements(player_name, df, max_age=25, n_similar=5):
 
 # Check if the selected player is over 27 and suggest younger replacements
 if player_data['age'] > 27:
-    st.header("Younger Replacement Suggestions")
+    st.subheader("Younger Replacement Suggestions")
     player_age = int(df[df['player_x'] == selected_player]['age'].values[0])
     st.write(f"{selected_player} is {player_age} years old. Here are some younger replacements:")
     
@@ -289,7 +289,7 @@ fig.text(
 st.pyplot(fig)
 
 # Additional Visuals
-st.header("Player Comparison and Insights")
+st.subheader("Player Comparison and Insights")
 
 # Player Comparison
 st.sidebar.header('Player Comparison')
