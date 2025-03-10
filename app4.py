@@ -1,73 +1,127 @@
 import streamlit as st
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
-from sklearn.impute import SimpleImputer
 import joblib
-from sqlalchemy import create_engine
-from dotenv import load_dotenv
 import os
-import psycopg2
 
-# Load environment variables
-load_dotenv()
+# Set page title
+st.set_page_config(page_title="Player Value Predictor", layout="wide")
 
-# Database configuration
-db_config = {
-    'dbname': os.getenv('DB_NAME'),
-    'user': os.getenv('DB_USER'),
-    'password': os.getenv('DB_PASSWORD'),
-    'host': os.getenv('DB_HOST'),
-    'port': 5432
-}
+# Create a function to load model files
+@st.cache_resource
+def load_models():
+    try:
+        preprocessor = joblib.load('scaler.pkl')
+        model = joblib.load('best_xgboost.pkl')
+        return preprocessor, model
+    except Exception as e:
+        st.error(f"Error loading models: {e}")
+        return None, None
 
-# Create a connection string for SQLAlchemy
-connection_string = f"postgresql+psycopg2://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['dbname']}"
-engine = create_engine(connection_string)
-
-# Load the trained scaler and model
-preprocessor = joblib.load('scaler.pkl')
-model = joblib.load('best_xgboost.pkl')
-
-# Load the data
+# Create a function to load data
 @st.cache_data
 def load_data():
-    df = pd.read_sql_query("""select * from prediction""", con=engine)
-    return df
+    # Option 1: Use a CSV file stored in the repository
+    try:
+        return pd.read_csv('player_data.csv')
+    except FileNotFoundError:
+        # Option 2: Use Streamlit secrets for database connection
+        try:
+            import psycopg2
+            from sqlalchemy import create_engine
+            
+            # Get credentials from Streamlit secrets
+            db_credentials = st.secrets["postgres"]
+            
+            # Create connection string
+            connection_string = f"postgresql+psycopg2://{db_credentials['user']}:{db_credentials['password']}@{db_credentials['host']}:{db_credentials['port']}/{db_credentials['dbname']}"
+            engine = create_engine(connection_string)
+            
+            # Load data from database
+            df = pd.read_sql_query("""select * from prediction""", con=engine)
+            return df
+        except Exception as e:
+            st.error(f"Error connecting to database: {e}")
+            # Provide sample data as fallback
+            return pd.DataFrame({
+                'player_x': ['Sample Player 1', 'Sample Player 2'],
+                # Add other columns your model expects
+            })
 
-df = load_data()
+# Main app
+st.title("Player Market Value Predictor")
 
-# Debugging: Display the loaded data
-st.write("Loaded Data:", df.sample(5))
+# Load models
+preprocessor, model = load_models()
+
+# Check if models loaded successfully
+if preprocessor is None or model is None:
+    st.error("Failed to load models. Please check that 'scaler.pkl' and 'best_xgboost.pkl' are in the repository.")
+    st.stop()
+
+# Load data
+with st.spinner("Loading player data..."):
+    df = load_data()
+
+# Display info about the app
+with st.expander("About this app"):
+    st.write("""
+    This app predicts the market value of players based on various metrics.
+    Select a player from the dropdown and click 'Predict' to see their estimated market value.
+    """)
 
 # Sidebar for user input
 st.sidebar.header('Player Selection')
-selected_player = st.sidebar.selectbox('Select a player', df['player_x'].unique())
+if not df.empty and 'player_x' in df.columns:
+    selected_player = st.sidebar.selectbox('Select a player', df['player_x'].unique())
+    
+    # Add a predict button
+    if st.sidebar.button('Predict', type="primary"):
+        st.subheader(f"Prediction for {selected_player}")
+        
+        # Progress bar for visual feedback
+        progress_bar = st.progress(0)
+        
+        try:
+            # Get player data
+            player_data = df[df['player_x'] == selected_player]
+            
+            if player_data.empty:
+                st.warning(f"No data found for {selected_player}")
+            else:
+                # Update progress
+                progress_bar.progress(25)
+                
+                # Check for required columns
+                required_columns = preprocessor.feature_names_in_
+                missing_columns = [col for col in required_columns if col not in player_data.columns]
+                
+                if missing_columns:
+                    st.error(f"Missing required columns: {', '.join(missing_columns)}")
+                else:
+                    # Prepare data for preprocessing
+                    player_data = player_data[required_columns]
+                    progress_bar.progress(50)
+                    
+                    # Transform the data
+                    player_processed = preprocessor.transform(player_data)
+                    progress_bar.progress(75)
+                    
+                    # Make prediction
+                    predicted_value = model.predict(player_processed)[0]
+                    progress_bar.progress(100)
+                    
+                    # Display result
+                    st.success(f'Predicted market value for {selected_player}: ${predicted_value:,.2f}')
+                    
+                    # Show player stats
+                    st.subheader("Player Statistics")
+                    st.dataframe(player_data)
+                    
+        except Exception as e:
+            st.error(f"Error during prediction: {e}")
+else:
+    st.error("No player data available or incorrect data format")
 
-# Add a predict button
-if st.button('Predict'):
-    # Debugging: Display selected player
-    st.write("Selected Player:", selected_player)
-    
-    # Preprocess the data
-    try:
-        preprocessed_data = preprocessor.transform(df)
-        st.write("Preprocessed Data Shape:", preprocessed_data.shape)
-    except Exception as e:
-        st.error(f"Error during preprocessing: {e}")
-    
-    # Predict the value for the selected player
-    try:
-        player_data = df[df['player_x'] == selected_player]
-        st.write("Player Data:", player_data)
-        
-        player_processed = preprocessor.transform(player_data)
-        st.write("Player Processed Data Shape:", player_processed.shape)
-        
-        predicted_value = model.predict(player_processed)[0]
-        st.write(f'Predicted market value for {selected_player}: ${predicted_value:,.2f}')
-    except Exception as e:
-        st.error(f"Error during prediction: {e}")
-    
+# Add footer
+st.sidebar.markdown("---")
+st.sidebar.info("Made with Streamlit and ❤️")
