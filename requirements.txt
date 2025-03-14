@@ -4,7 +4,7 @@ streamlit==1.36.0
 requests==2.32.3
 numpy== 1.24.3
 pandas== 2.1.4
-sklearn==1.5.2
+scikit-learn==1.5.2
 joblib==1.2.0
 matplotlib==3.7.1
 mplsoccer==1.2.2
