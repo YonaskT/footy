@@ -10,7 +10,6 @@ import os
 import unicodedata
 import psycopg2
 import joblib
-import python-dotenv
 import warnings
 warnings.filterwarnings('ignore')
 
