@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 import os
 import unicodedata
 import psycopg2-binary
+import joblib
+import python-dotenv
 import warnings
 warnings.filterwarnings('ignore')
 
