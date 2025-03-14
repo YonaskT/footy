@@ -8,7 +8,7 @@ from sqlalchemy import create_engine
 from dotenv import load_dotenv
 import os
 import unicodedata
-import psycopg2-binary
+import psycopg2
 import joblib
 import python-dotenv
 import warnings
