@@ -14,7 +14,14 @@ import warnings
 warnings.filterwarnings('ignore')
 
 load_dotenv()
-
+# Connect to the database
+conn = psycopg2.connect(
+    host=st.secrets["postgres"]["host"],
+    port=st.secrets["postgres"]["port"],
+    dbname=st.secrets["postgres"]["dbname"],
+    user=st.secrets["postgres"]["user"],
+    password=st.secrets["postgres"]["password"]
+)
 db_config = {
     'dbname': os.getenv('DB_NAME'),
     'user': os.getenv('DB_USER'),
@@ -23,8 +30,9 @@ db_config = {
     'port': int(5432)
 }
 # Create a connection string for SQLAlchemy
-connection_string = f"postgresql+psycopg2://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['dbname']}"
-engine = create_engine(connection_string)
+#connection_string = f"postgresql+psycopg2://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['dbname']}"
+#engine = create_engine(connection_string)
+engine =create_engine(conn)
 
 # Load data
 @st.cache_data
