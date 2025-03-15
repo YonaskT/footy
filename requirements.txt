@@ -13,3 +13,5 @@ xgboost==2.0.0
 python-dotenv==0.21.0
 SQLAlchemy==2.0.38
 psycopg2-binary==2.9.9
+mysql-connector-python
+
