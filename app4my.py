@@ -13,13 +13,13 @@ import os
 # Load environment variables
 load_dotenv()
 
-# Database configuration
+# Database configuration using Streamlit Secrets
 db_config = {
-    'dbname': os.getenv('MY_DB_NAME'),
-    'user': os.getenv('MY_DB_USER'),
-    'password': os.getenv('MY_DB_PASSWORD'),
-    'host': os.getenv('MY_DB_HOST'),
-    'port': 3306
+    'dbname': st.secrets["db_config"]["dbname"],
+    'user': st.secrets["db_config"]["user"],
+    'password': st.secrets["db_config"]["password"],
+    'host': st.secrets["db_config"]["host"],
+    'port': int(st.secrets["db_config"]["port"])
 }
 
 # Create a connection string for SQLAlchemy
